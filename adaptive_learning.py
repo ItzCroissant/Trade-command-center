@@ -219,3 +219,15 @@ def save_model_candidate(version, weights):
 
 # Initialize database tables when this module is imported.
 initialize_learning()
+
+def get_strategy_names():
+    """Return all strategies with recorded predictions."""
+
+    with connect() as db:
+        rows = db.execute("""
+            SELECT DISTINCT strategy
+            FROM predictions
+            ORDER BY strategy
+        """).fetchall()
+
+    return [row[0] for row in rows]
