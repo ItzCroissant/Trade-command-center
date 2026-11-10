@@ -1,3 +1,4 @@
+import adaptive_learning
 import performance
 import streamlit as st
 import requests
@@ -829,4 +830,44 @@ st.divider()
 st.caption(
     "Trading Command Center v2.0 | Experimental research software | "
     "Paper trading only | No guaranteed returns"
+)
+
+# =====================================
+# ADAPTIVE LEARNING DASHBOARD
+# =====================================
+
+st.divider()
+st.header("🧠 Adaptive Learning Engine")
+
+learning = adaptive_learning.learning_status()
+
+col1, col2, col3 = st.columns(3)
+
+col1.metric(
+    "Resolved Predictions",
+    learning["resolved_predictions"]
+)
+
+col2.metric(
+    "Pending Predictions",
+    learning["pending_predictions"]
+)
+
+col3.metric(
+    "Evaluation Target",
+    f'{learning["minimum_required"]}'
+)
+
+if learning["ready_for_review"]:
+    st.success("Enough predictions collected for model review.")
+else:
+    remaining = (
+        learning["minimum_required"]
+        - learning["resolved_predictions"]
+    )
+    st.info(f"{remaining} more settled predictions needed.")
+
+st.caption(
+    "Model updates require review. "
+    "Live trading settings cannot be changed automatically."
 )
