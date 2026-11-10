@@ -871,3 +871,16 @@ st.caption(
     "Model updates require review. "
     "Live trading settings cannot be changed automatically."
 )
+
+st.subheader("Strategy Performance")
+
+strategies = adaptive_learning.get_strategy_names()
+
+if strategies:
+    for strategy in strategies:
+        results = adaptive_learning.evaluate_strategy(strategy)
+
+        with st.expander(strategy):
+            st.write(results)
+else:
+    st.info("No strategy predictions recorded yet.")
